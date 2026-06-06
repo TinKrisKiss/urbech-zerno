@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Основные мета-теги -->
+    <title>ЗЕРНО - Урбеч и ореховые пасты холодного отжима | Натуральные продукты</title>
+    <meta name="description" content="Свежемолотые ореховые пасты холодного отжима. Только орехи и семена - без сахара, масел и добавок. Доставка по Екатеринбургу за 1-2 дня.">
+    <meta name="keywords" content="урбеч, ореховая паста, натуральные продукты, здоровое питание, льняной урбеч, кунжутная паста, фундучная паста, холодный отжим, ЗОЖ">
+    <meta name="author" content="ЗЕРНО">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Канонический URL -->
+    <link rel="canonical" href="https://твой-username.github.io/project-3-zerne/">
+    
+    <!-- Open Graph для соцсетей -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="ЗЕРНО - Урбеч и ореховые пасты холодного отжима">
+    <meta property="og:description" content="Свежемолотые ореховые пасты без сахара и добавок. Натуральный состав, холодный отжим.">
+    <meta property="og:image" content="https://твой-username.github.io/project-3-zerne/img/hero.jpg">
+    <meta property="og:url" content="https://твой-username.github.io/project-3-zerne/">
+    <meta property="og:site_name" content="ЗЕРНО">
+    <meta property="og:locale" content="ru_RU">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ЗЕРНО - Натуральный урбеч">
+    <meta name="twitter:description" content="Свежемолотые ореховые пасты холодного отжима">
+    <meta name="twitter:image" content="https://твой-username.github.io/project-3-zerne/img/hero.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
+    
+    <!-- Schema.org разметка -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "ЗЕРНО",
+        "description": "Производство натурального урбеча и ореховых паст холодного отжима",
+        "url": "https://твой-username.github.io/project-3-zerne/",
+        "logo": "https://твой-username.github.io/project-3-zerne/img/logo.png",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Екатеринбург",
+            "addressCountry": "RU"
+        },
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "customer service",
+            "url": "https://t.me/urbeco_shop"
+        }
+    }
+    </script>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        mirage: '#16232A',
+                        blaze: '#FF5B04',
+                        'deep-sea': '#075056',
+                        'wild-sand': '#E4EEF0',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <script defer src="products.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        [x-cloak] { display: none !important; }
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body class="bg-wild-sand text-mirage antialiased" x-data="cartData()">
+
+    <!-- HEADER -->
+    <header class="fixed w-full top-0 z-40 bg-mirage/95 backdrop-blur-sm border-b border-deep-sea/30" x-data="{ mobileMenuOpen: false }">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="index.html" class="text-2xl font-bold text-wild-sand tracking-tight">ЗЕРНО<span class="text-blaze">.</span></a>
+            
+            <!-- Десктопная навигация -->
+            <nav class="hidden md:flex space-x-8 text-sm font-medium text-wild-sand/80">
+                <a href="#catalog" class="hover:text-blaze transition">Каталог</a>
+                <a href="#process" class="hover:text-blaze transition">Состав</a>
+                <a href="#how-to" class="hover:text-blaze transition">Как заказать</a>
+                <a href="#faq" class="hover:text-blaze transition">FAQ</a>
+            </nav>
+
+            <!-- Мобильная кнопка Меню -->
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-wild-sand text-sm font-medium underline underline-offset-4 decoration-blaze decoration-2">
+                Меню
+            </button>
+
+            <!-- Корзина (всегда видна) -->
+            <button @click="isCartOpen = true" class="relative p-2 text-wild-sand hover:text-blaze transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                <span x-show="cart.length > 0" x-text="cartTotalItems()" class="absolute -top-1 -right-1 bg-blaze text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center"></span>
+            </button>
+        </div>
+
+        <!-- Мобильное меню (выпадающее) -->
+        <div x-show="mobileMenuOpen" 
+            x-transition:enter="transition ease-out duration-200"
+            x-transition:enter-start="opacity-0 -translate-y-2"
+            x-transition:enter-end="opacity-100 translate-y-0"
+            x-transition:leave="transition ease-in duration-150"
+            x-transition:leave-start="opacity-100 translate-y-0"
+            x-transition:leave-end="opacity-0 -translate-y-2"
+            class="md:hidden absolute top-16 left-0 right-0 bg-mirage border-b border-deep-sea/30 shadow-xl">
+            <nav class="flex flex-col px-4 py-4 space-y-3">
+                <a href="#catalog" @click="mobileMenuOpen = false" class="text-wild-sand/80 hover:text-blaze transition py-2 border-b border-wild-sand/10">Каталог</a>
+                <a href="#process" @click="mobileMenuOpen = false" class="text-wild-sand/80 hover:text-blaze transition py-2 border-b border-wild-sand/10">Состав</a>
+                <a href="#how-to" @click="mobileMenuOpen = false" class="text-wild-sand/80 hover:text-blaze transition py-2 border-b border-wild-sand/10">Как заказать</a>
+                <a href="#faq" @click="mobileMenuOpen = false" class="text-wild-sand/80 hover:text-blaze transition py-2">FAQ</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="relative min-h-screen flex items-start overflow-hidden">
+        <!-- Фоновое изображение -->
+        <div class="absolute inset-0">
+            <picture>
+                <source media="(max-width: 768px)" srcset="img/hero-mobile.jpg">
+                <img src="img/hero.jpg" alt="" class="w-full h-full object-cover">
+            </picture>
+            <div class="absolute inset-0 bg-gradient-to-r from-mirage via-mirage/50 to-mirage/0 md:block hidden"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-mirage/70 via-mirage/30 to-mirage/20 md:hidden block"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-mirage/60 via-transparent to-transparent md:block hidden"></div>
+        </div>
+
+        <!-- Контент -->
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-[80px] lg:pt-20 w-full">
+            <div class="max-w-2xl">
+                <span class="inline-block py-1 px-3 rounded-full bg-blaze/20 border border-blaze/40 text-blaze text-xs font-semibold tracking-wide mb-6 backdrop-blur-sm">
+                    СВЕЖИЙ ПОМОЛ КАЖДУЮ НЕДЕЛЮ
+                </span>
+                <h1 class="text-3xl md:text-4xl lg:text-6xl font-bold leading-tight mb-6 text-wild-sand">
+                    Урбеч, который меняет представление о <span class="text-blaze">полезном завтраке</span>
+                </h1>
+                <p class="text-base md:text-lg text-wild-sand/80 mb-8 max-w-lg">
+                    Свежемолотые ореховые пасты холодного отжима. Только орехи и семена - без сахара, масел и добавок.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 items-center mt-64">
+                    <a href="#catalog" class="inline-flex justify-center items-center px-8 py-4 bg-blaze text-white font-semibold rounded-lg hover:bg-orange-600 transition shadow-lg shadow-blaze/30">
+                        Выбрать вкус
+                    </a>
+                    <span class="text-sm text-wild-sand/70">
+                        📦 Доставка по Екатеринбургу за 1-2 дня
+                    </span>
+                </div>
+                
+                <div class="mt-12 grid grid-cols-2 gap-6 max-w-md mx-auto">
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-blaze">100%</div>
+                        <div class="text-xs text-wild-sand/60">натуральный состав</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-blaze">40°C</div>
+                        <div class="text-xs text-wild-sand/60">холодный отжим</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ПРОБЛЕМА / РЕШЕНИЕ -->
+    <section class="py-20 bg-blaze/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center mb-16">Почему обычный урбеч - это не то?</h2>
+            <div class="grid md:grid-cols-2 gap-8 lg:gap-16">
+                <div class="bg-white/50 p-8 rounded-2xl border border-mirage/5">
+                    <h3 class="text-xl font-semibold mb-6 text-mirage/80">Что не так с магазинным?</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <span class="text-red-500 mt-1">✕</span>
+                            <span>В составе сахар, пальмовое масло и эмульгаторы</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-red-500 mt-1">✕</span>
+                            <span>Старый помол - орехи уже прогоркли и потеряли пользу</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-red-500 mt-1">✕</span>
+                            <span>Непонятное происхождение сырья</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bg-deep-sea p-8 rounded-2xl text-wild-sand shadow-xl">
+                    <h3 class="text-xl font-semibold mb-6 text-blaze">Как делаем мы</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <span class="text-blaze mt-1">✓</span>
+                            <span>Только один ингредиент в банке. Без химии.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-blaze mt-1">✓</span>
+                            <span>Холодный отжим на каменных жерновах (до 40°C)</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-blaze mt-1">✓</span>
+                            <span>Готовим маленькими партиями раз в неделю</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- КАТАЛОГ -->
+    <section id="catalog" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl lg:text-4xl font-bold mb-4">Наша линейка</h2>
+                <p class="text-mirage/60">Выберите свой идеальный завтрак</p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Товар 1 -->
+            <div class="group flex flex-col bg-wild-sand rounded-2xl overflow-hidden hover:shadow-xl transition">
+                <a href="product.html?id=1" class="aspect-square overflow-hidden bg-gray-200 block">
+                    <img src="img/product-flax.jpg" alt="Льняной урбеч" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                </a>
+                <div class="p-6 flex flex-col flex-grow">
+                    <h3 class="text-xl font-bold mb-2">Классический лён</h3>
+                    <p class="text-sm text-mirage/60 mb-4 flex-grow">Омега-3, белок, клетчатка. Идеальная база для здорового завтрака.</p>
+                    <div class="text-2xl font-bold mb-4">450 руб. <span class="text-xs text-mirage/50 font-normal">200 г</span></div>
+                    <div class="flex gap-2">
+                        <button @click="addToCart(PRODUCTS[0])" class="flex-1 bg-blaze text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition">В корзину</button>
+                        <a href="product.html?id=1" class="bg-white border border-mirage/20 text-mirage px-3 py-2 rounded-lg text-sm font-medium hover:bg-mirage hover:text-wild-sand transition">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Товар 2 -->
+            <div class="group flex flex-col bg-wild-sand rounded-2xl overflow-hidden hover:shadow-xl transition">
+                <a href="product.html?id=2" class="aspect-square overflow-hidden bg-gray-200 block">
+                    <img src="img/product-sesame.jpg" alt="Чёрный кунжут" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                </a>
+                <div class="p-6 flex flex-col flex-grow">
+                    <h3 class="text-xl font-bold mb-2">Чёрный кунжут</h3>
+                    <p class="text-sm text-mirage/60 mb-4 flex-grow">Кальций, железо, антиоксиданты. Для крепких костей и иммунитета.</p>
+                    <div class="text-2xl font-bold mb-4">520 руб. <span class="text-xs text-mirage/50 font-normal">180 г</span></div>
+                    <div class="flex gap-2">
+                        <button @click="addToCart(PRODUCTS[1])" class="flex-1 bg-blaze text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition">В корзину</button>
+                        <a href="product.html?id=2" class="bg-white border border-mirage/20 text-mirage px-3 py-2 rounded-lg text-sm font-medium hover:bg-mirage hover:text-wild-sand transition">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Товар 3 -->
+            <div class="group flex flex-col bg-wild-sand rounded-2xl overflow-hidden hover:shadow-xl transition">
+                <a href="product.html?id=3" class="aspect-square overflow-hidden bg-gray-200 block">
+                    <img src="img/product-hazelnut.jpg" alt="Лесной фундук" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                </a>
+                <div class="p-6 flex flex-col flex-grow">
+                    <h3 class="text-xl font-bold mb-2">Лесной фундук</h3>
+                    <p class="text-sm text-mirage/60 mb-4 flex-grow">Нежный ореховый вкус. Витамин E, магний, фолиевая кислота.</p>
+                    <div class="text-2xl font-bold mb-4">680 руб. <span class="text-xs text-mirage/50 font-normal">200 г</span></div>
+                    <div class="flex gap-2">
+                        <button @click="addToCart(PRODUCTS[2])" class="flex-1 bg-blaze text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition">В корзину</button>
+                        <a href="product.html?id=3" class="bg-white border border-mirage/20 text-mirage px-3 py-2 rounded-lg text-sm font-medium hover:bg-mirage hover:text-wild-sand transition">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Товар 4 -->
+            <div class="group flex flex-col bg-wild-sand rounded-2xl overflow-hidden hover:shadow-xl transition">
+                <a href="product.html?id=4" class="aspect-square overflow-hidden bg-gray-200 block">
+                    <img src="img/product-set.jpg" alt="Набор Знакомство" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                </a>
+                <div class="p-6 flex flex-col flex-grow">
+                    <h3 class="text-xl font-bold mb-2">Набор «Знакомство»</h3>
+                    <p class="text-sm text-mirage/60 mb-4 flex-grow">Лён + кунжут + фундук. Чтобы попробовать всё и выбрать любимое.</p>
+                    <div class="text-2xl font-bold mb-4">750 руб. <span class="text-xs text-mirage/50 font-normal">3 × 100 г</span></div>
+                    <div class="flex gap-2">
+                        <button @click="addToCart(PRODUCTS[3])" class="flex-1 bg-blaze text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition">В корзину</button>
+                        <a href="product.html?id=4" class="bg-white border border-mirage/20 text-mirage px-3 py-2 rounded-lg text-sm font-medium hover:bg-mirage hover:text-wild-sand transition">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <!-- СОСТАВ / ПРОЦЕСС (с фоном) -->
+    <section id="process" class="relative py-20 text-wild-sand overflow-hidden">
+        <!-- Фоновое изображение -->
+        <div class="absolute inset-0">
+            <img src="img/bg-process.jpg" alt="" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-deep-sea/85"></div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl lg:text-4xl font-bold mb-4">Что внутри банки?</h2>
+                <p class="text-wild-sand/70">Только сырые орехи или семена. Никаких скрытых ингредиентов.</p>
+            </div>
+
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="w-16 h-16 mx-auto bg-mirage rounded-full flex items-center justify-center text-2xl font-bold text-blaze mb-4">1</div>
+                    <h3 class="font-semibold mb-2">Отборное сырьё</h3>
+                    <p class="text-sm text-wild-sand/60">Закупаем орехи и семена напрямую у фермеров</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 mx-auto bg-mirage rounded-full flex items-center justify-center text-2xl font-bold text-blaze mb-4">2</div>
+                    <h3 class="font-semibold mb-2">Холодный помол</h3>
+                    <p class="text-sm text-wild-sand/60">Каменные жернова, температура не выше 40°C</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 mx-auto bg-mirage rounded-full flex items-center justify-center text-2xl font-bold text-blaze mb-4">3</div>
+                    <h3 class="font-semibold mb-2">Сразу в стекло</h3>
+                    <p class="text-sm text-wild-sand/60">Фасуем в тёмное стекло для сохранения свойств</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 mx-auto bg-mirage rounded-full flex items-center justify-center text-2xl font-bold text-blaze mb-4">4</div>
+                    <h3 class="font-semibold mb-2">К вам за 48 часов</h3>
+                    <p class="text-sm text-wild-sand/60">Свежий продукт без долгого хранения на складах</p>
+                </div>
+            </div>
+            
+            <div class="mt-16 p-6 bg-mirage/50 rounded-xl text-center text-sm text-wild-sand/80 border border-wild-sand/10">
+                ⚠️ <strong>Важно:</strong> Хранить в холодильнике после вскрытия. Срок годности без консервантов - 60 дней.
+            </div>
+        </div>
+    </section>
+
+    <!-- КАК ЗАКАЗАТЬ -->
+    <section id="how-to" class="py-20 bg-wild-sand">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl lg:text-4xl font-bold mb-12">3 шага к полезному завтраку</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-2xl shadow-sm">
+                    <!-- ЗАМЕНИТЬ ИКОНКУ -->
+                    <div class="w-16 h-16 mx-auto mb-4 bg-blaze/10 rounded-full flex items-center justify-center">
+                        <svg class="w-8 h-8 text-blaze" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">Выберите вкус</h3>
+                    <p class="text-sm text-mirage/60">Добавьте позиции в корзину на сайте</p>
+                </div>
+                <div class="bg-white p-8 rounded-2xl shadow-sm">
+                    <!-- ЗАМЕНИТЬ ИКОНКУ -->
+                    <div class="w-16 h-16 mx-auto mb-4 bg-blaze/10 rounded-full flex items-center justify-center">
+                        <svg class="w-8 h-8 text-blaze" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">Оставьте заявку</h3>
+                    <p class="text-sm text-mirage/60">Нажмите «Оформить» и отправьте заказ в Telegram</p>
+                </div>
+                <div class="bg-white p-8 rounded-2xl shadow-sm">
+                    <!-- ЗАМЕНИТЬ ИКОНКУ -->
+                    <div class="w-16 h-16 mx-auto mb-4 bg-blaze/10 rounded-full flex items-center justify-center">
+                        <svg class="w-8 h-8 text-blaze" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">Получите урбеч</h3>
+                    <p class="text-sm text-mirage/60">Доставка по Екатеринбургу 1-2 дня, по РФ - СДЭК</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ (с фоном) -->
+    <section id="faq" class="relative py-20 overflow-hidden">
+        <!-- Фоновое изображение -->
+        <div class="absolute inset-0">
+            <img src="img/bg-faq.jpg" alt="" class="w-full h-full object-cover">
+        </div>
+
+        <div class="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center mb-12 text-white">Частые вопросы</h2>
+            
+            <div class="space-y-4">
+                <div x-data="{ open: false }" class="border border-mirage/10 rounded-xl overflow-hidden bg-white/70 backdrop-blur-sm">
+                    <button @click="open = !open" class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-wild-sand transition">
+                        <span class="font-medium">Чем урбеч отличается от пасты из магазина?</span>
+                        <span x-text="open ? '−' : '+'" class="text-xl text-blaze font-bold"></span>
+                    </button>
+                    <div x-show="open" x-collapse class="px-6 py-4 text-mirage/70 text-sm">
+                        Урбеч - это молотые орехи/семена без добавления масел, сахара и эмульгаторов. Консистенция более густая, вкус - натуральный и насыщенный.
+                    </div>
+                </div>
+
+                <div x-data="{ open: false }" class="border border-mirage/10 rounded-xl overflow-hidden bg-white/70 backdrop-blur-sm">
+                    <button @click="open = !open" class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-wild-sand transition">
+                        <span class="font-medium">Почему нельзя хранить при комнатной температуре?</span>
+                        <span x-text="open ? '−' : '+'" class="text-xl text-blaze font-bold"></span>
+                    </button>
+                    <div x-show="open" x-collapse class="px-6 py-4 text-mirage/70 text-sm">
+                        Без консервантов и термической обработки урбеч может прогоркнуть. В холодильнике он сохраняет свежесть и пользу до 2 месяцев.
+                    </div>
+                </div>
+
+                <div x-data="{ open: false }" class="border border-mirage/10 rounded-xl overflow-hidden bg-white/70 backdrop-blur-sm">
+                    <button @click="open = !open" class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-wild-sand transition">
+                        <span class="font-medium">Можно ли давать детям?</span>
+                        <span x-text="open ? '−' : '+'" class="text-xl text-blaze font-bold"></span>
+                    </button>
+                    <div x-show="open" x-collapse class="px-6 py-4 text-mirage/70 text-sm">
+                        Да, с 3 лет. Урбеч - отличный источник полезных жиров, белка и микроэлементов для растущего организма.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-mirage text-wild-sand/60 py-12 border-t border-deep-sea/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-center md:text-left">
+                <div class="text-2xl font-bold text-wild-sand mb-2">ЗЕРНО<span class="text-blaze">.</span></div>
+                <p class="text-sm">Сделано с любовью к природе и вашему здоровью.</p>
+            </div>
+            <div class="flex gap-6 text-sm">
+                <a href="offer.html" class="hover:text-blaze transition">Оферта</a>
+                <a href="delivery.html" class="hover:text-blaze transition">Доставка</a>
+                <a href="https://t.me/urbeco_shop" target="_blank" class="hover:text-blaze transition">Telegram</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- КОРЗИНА (DRAWER) -->
+    <!-- КОРЗИНА -->
+    <div x-show="isCartOpen" x-cloak class="fixed inset-0 z-50 overflow-hidden" aria-labelledby="slide-over-title" role="dialog" aria-modal="true" @keydown.escape.window="isCartOpen = false">
+        <!-- Затемнение (кликабельное) -->
+        <div class="absolute inset-0 bg-mirage/70 backdrop-blur-sm transition-opacity" @click="isCartOpen = false"></div>
+        
+        <!-- Панель корзины -->
+        <div class="fixed inset-y-0 right-0 flex max-w-full pl-10 pointer-events-none">
+            <div x-show="isCartOpen" 
+                x-transition:enter="transform transition ease-in-out duration-500 sm:duration-700" 
+                x-transition:enter-start="translate-x-full" 
+                x-transition:enter-end="translate-x-0" 
+                x-transition:leave="transform transition ease-in-out duration-500 sm:duration-700" 
+                x-transition:leave-start="translate-x-0" 
+                x-transition:leave-end="translate-x-full" 
+                class="w-screen max-w-md pointer-events-auto">
+                
+                <div class="flex h-full flex-col bg-wild-sand shadow-xl">
+                    <!-- Шапка -->
+                    <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
+                        <div class="flex items-start justify-between">
+                            <h2 class="text-2xl font-bold text-mirage">Ваш заказ</h2>
+                            <button @click="isCartOpen = false" class="p-2 text-mirage/50 hover:text-mirage">
+                                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                        <!-- Содержимое корзины -->
+                        <div class="mt-8">
+                            <ul class="-my-6 divide-y divide-mirage/10">
+                                <li x-show="cart.length === 0" class="py-12 text-center text-mirage/50">Корзина пуста 🌱</li>
+                                <template x-for="item in cart" :key="item.id">
+                                    <li class="flex py-6">
+                                        <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md bg-gray-200">
+                                            <img :src="item.image || 'img/hero.jpg'" 
+                                                :alt="item.name"
+                                                class="h-full w-full object-cover"
+                                                @error="$event.target.src = 'img/hero.jpg'">                                        </div>
+                                        <div class="ml-4 flex flex-1 flex-col">
+                                            <div class="flex justify-between text-base font-medium">
+                                                <h3 x-text="item.name"></h3>
+                                                <p x-text="item.price * item.quantity + ' руб.'"></p>
+                                            </div>
+                                            <p class="text-sm text-mirage/50" x-text="item.weight"></p>
+                                            <div class="flex items-end justify-between text-sm mt-2">
+                                                <div class="flex items-center border border-mirage/20 rounded-lg">
+                                                    <button @click="updateQuantity(item.id, -1)" class="px-3 py-1">−</button>
+                                                    <span class="px-2 font-medium" x-text="item.quantity"></span>
+                                                    <button @click="updateQuantity(item.id, 1)" class="px-3 py-1">+</button>
+                                                </div>
+                                                <button @click="removeFromCart(item.id)" class="text-blaze">Удалить</button>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Футер с итогом -->
+                    <div class="border-t border-mirage/10 px-4 py-6 bg-white">
+                        <div class="flex justify-between font-medium mb-4">
+                            <p>Итого</p>
+                            <p x-text="cartTotal() + ' руб.'"></p>
+                        </div>
+                        <button @click="checkout()" 
+                                :disabled="cart.length === 0"
+                                :class="cart.length === 0 ? 'bg-gray-300 cursor-not-allowed' : 'bg-blaze hover:bg-orange-600'"
+                                class="w-full py-4 rounded-lg font-bold text-white transition">
+                            Оформить в Telegram
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    function cartData() {
+        return {
+            cart: [],
+            isCartOpen: false,
+            toastVisible: false,
+            toastMessage: '',
+            
+            init() {
+                const savedCart = localStorage.getItem('zerne_cart');
+                if (savedCart) {
+                    this.cart = JSON.parse(savedCart);
+                }
+                this.$watch('cart', (value) => {
+                    localStorage.setItem('zerne_cart', JSON.stringify(value));
+                });
+            },
+            
+            addToCart(product) {
+                const existingItem = this.cart.find(item => item.id === product.id);
+                if (existingItem) {
+                    existingItem.quantity++;
+                } else {
+                    this.cart.push({ ...product, quantity: 1 });
+                }
+                this.showToast('Товар добавлен в корзину');
+            },
+            
+            removeFromCart(id) {
+                this.cart = this.cart.filter(item => item.id !== id);
+            },
+            
+            updateQuantity(id, delta) {
+                const item = this.cart.find(item => item.id === id);
+                if (item) {
+                    item.quantity += delta;
+                    if (item.quantity <= 0) {
+                        this.removeFromCart(id);
+                    }
+                }
+            },
+            
+            cartTotal() {
+                return this.cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+            },
+            
+            cartTotalItems() {
+                return this.cart.reduce((total, item) => total + item.quantity, 0);
+            },
+            
+            getProductImage(id) {
+                const product = PRODUCTS.find(p => p.id === id);
+                return product ? product.image : 'img/hero.jpg';
+            },
+            
+            checkout() {
+                if (this.cart.length === 0) return;
+                
+                let message = "Здравствуйте! Хочу оформить заказ:\n\n";
+                this.cart.forEach(item => {
+                    message += `- ${item.name} (${item.weight}) x ${item.quantity} шт. = ${item.price * item.quantity} руб.\n`;
+                });
+                message += `\nИтого: ${this.cartTotal()} руб.\n\nПодскажите по доставке!`;
+                
+                const encodedMessage = encodeURIComponent(message);
+                const telegramUrl = `https://t.me/urbeco_shop?text=${encodedMessage}`;
+                
+                window.open(telegramUrl, '_blank');
+            },
+            showToast(message) {
+                this.toastMessage = message;
+                this.toastVisible = true;
+                setTimeout(() => {
+                    this.toastVisible = false;
+                }, 2000);
+            }
+        };
+    }
+    </script>
+    <!-- TOAST УВЕДОМЛЕНИЕ -->
+    <div x-show="toastVisible" 
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 translate-y-4"
+        x-transition:enter-end="opacity-100 translate-y-0"
+        x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100 translate-y-0"
+        x-transition:leave-end="opacity-0 translate-y-4"
+        class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[60] bg-mirage text-wild-sand px-6 py-3 rounded-full shadow-2xl flex items-center gap-3">
+        <svg class="w-5 h-5 text-blaze" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+        <span class="text-sm font-medium" x-text="toastMessage"></span>
+    </div>
+</body>
+</html>

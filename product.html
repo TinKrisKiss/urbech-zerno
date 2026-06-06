@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Товар - ЗЕРНО</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        mirage: '#16232A',
+                        blaze: '#FF5B04',
+                        'deep-sea': '#075056',
+                        'wild-sand': '#E4EEF0',
+                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+
+    <script defer src="products.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        [x-cloak] { display: none !important; }
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body class="bg-wild-sand text-mirage antialiased" x-data="productPage()" x-init="init()">
+
+    <!-- HEADER -->
+    <header class="fixed w-full top-0 z-40 bg-mirage/95 backdrop-blur-sm border-b border-deep-sea/30" x-data="{ mobileMenuOpen: false }">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="index.html" class="text-2xl font-bold text-wild-sand tracking-tight">ЗЕРНО<span class="text-blaze">.</span></a>
+            
+            <!-- Десктопная навигация -->
+            <nav class="hidden md:flex space-x-8 text-sm font-medium text-wild-sand/80">
+                <a href="index.html#catalog" class="hover:text-blaze transition">Каталог</a>
+                <a href="index.html#process" class="hover:text-blaze transition">Состав</a>
+                <a href="index.html#how-to" class="hover:text-blaze transition">Как заказать</a>
+                <a href="index.html#faq" class="hover:text-blaze transition">FAQ</a>
+            </nav>
+
+            <!-- Мобильная кнопка Меню -->
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-wild-sand text-sm font-medium underline underline-offset-4 decoration-blaze decoration-2">
+                Меню
+            </button>
+
+            <!-- Корзина -->
+            <button @click="isCartOpen = true" class="relative p-2 text-wild-sand hover:text-blaze transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                <span x-show="cart.length > 0" x-text="cartTotalItems()" class="absolute -top-1 -right-1 bg-blaze text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center"></span>
+            </button>
+        </div>
+
+        <!-- Мобильное меню -->
+        <div x-show="mobileMenuOpen" 
+             x-transition:enter="transition ease-out duration-200"
+             x-transition:enter-start="opacity-0 -translate-y-2"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-150"
+             x-transition:leave-start="opacity-100 translate-y-0"
+             x-transition:leave-end="opacity-0 -translate-y-2"
+             class="md:hidden absolute top-16 left-0 right-0 bg-mirage border-b border-deep-sea/30 shadow-xl">
+            <nav class="flex flex-col px-4 py-4 space-y-3">
+                <a href="index.html#catalog" @click="mobileMenuOpen = false" class="text-wild-sand/80 hover:text-blaze transition py-2 border-b border-wild-sand/10">Каталог</a>
+                <a href="index.html#process" @click="mobileMenuOpen = false" class="text-wild-sand/80 hover:text-blaze transition py-2 border-b border-wild-sand/10">Состав</a>
+                <a href="index.html#how-to" @click="mobileMenuOpen = false" class="text-wild-sand/80 hover:text-blaze transition py-2 border-b border-wild-sand/10">Как заказать</a>
+                <a href="index.html#faq" @click="mobileMenuOpen = false" class="text-wild-sand/80 hover:text-blaze transition py-2">FAQ</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ОСНОВНОЙ КОНТЕНТ -->
+    <main class="pt-16">
+
+        <!-- BREADCRUMBS -->
+        <div class="py-6 bg-white border-b border-mirage/5">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <nav class="flex text-sm text-mirage/60">
+                    <a href="index.html" class="hover:text-blaze transition">Главная</a>
+                    <span class="mx-2">/</span>
+                    <a href="index.html#catalog" class="hover:text-blaze transition">Каталог</a>
+                    <span class="mx-2">/</span>
+                    <span class="text-mirage" x-text="product ? product.name : 'Товар'"></span>
+                </nav>
+            </div>
+        </div>
+
+        <!-- HERO ТОВАРА -->
+        <section class="py-12 lg:py-20 bg-white" x-show="product">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 items-center">
+                <div class="relative">
+                    <div class="aspect-square rounded-3xl overflow-hidden bg-wild-sand">
+                        <img :src="product?.image" :alt="product?.name" class="w-full h-full object-cover">
+                    </div>
+                    <span x-show="product?.badge" 
+                          :class="product?.badgeColor === 'blaze' ? 'bg-blaze text-white' : 'bg-deep-sea text-wild-sand'"
+                          class="absolute top-6 left-6 py-1 px-3 rounded-full text-xs font-bold uppercase tracking-wide"
+                          x-text="product?.badge"></span>
+                </div>
+
+                <div>
+                    <h1 class="text-4xl lg:text-5xl font-bold mb-4" x-text="product?.name"></h1>
+                    <p class="text-lg text-mirage/60 mb-6" x-text="product?.shortDesc"></p>
+                    
+                    <div class="flex items-baseline gap-4 mb-8">
+                        <span class="text-4xl font-bold text-mirage" x-text="product?.price + ' руб.'"></span>
+                        <span class="text-sm text-mirage/50" x-text="product?.weight"></span>
+                    </div>
+
+                    <div class="flex gap-3 mb-10">
+                        <button @click="addToCart(product)" class="flex-1 bg-blaze text-white px-8 py-4 rounded-lg font-semibold hover:bg-orange-600 transition shadow-lg shadow-blaze/20">
+                            Добавить в корзину
+                        </button>
+                        <a href="index.html#catalog" class="px-6 py-4 border border-mirage/20 rounded-lg font-medium hover:bg-mirage hover:text-wild-sand transition">
+                            В каталог
+                        </a>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-4 pt-6 border-t border-mirage/10">
+                        <div>
+                            <div class="text-xs text-mirage/50 mb-1">Состав</div>
+                            <div class="font-semibold text-sm">1 ингредиент</div>
+                        </div>
+                        <div>
+                            <div class="text-xs text-mirage/50 mb-1">Помол</div>
+                            <div class="font-semibold text-sm">Холодный, до 40°C</div>
+                        </div>
+                        <div>
+                            <div class="text-xs text-mirage/50 mb-1">Хранение</div>
+                            <div class="font-semibold text-sm">В холодильнике</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ТАБЫ -->
+        <section class="py-16 bg-wild-sand" x-show="product">
+            <div x-data="{ activeTab: 'desc' }" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Десктоп: горизонтальные вкладки -->
+                <div class="hidden md:flex gap-2 mb-8 border-b border-mirage/10">
+                    <button @click="activeTab = 'desc'" 
+                            :class="activeTab === 'desc' ? 'border-blaze text-blaze' : 'border-transparent text-mirage/60 hover:text-mirage'"
+                            class="px-6 py-3 font-medium border-b-2 transition cursor-pointer">Описание</button>
+                    <button @click="activeTab = 'comp'" 
+                            :class="activeTab === 'comp' ? 'border-blaze text-blaze' : 'border-transparent text-mirage/60 hover:text-mirage'"
+                            class="px-6 py-3 font-medium border-b-2 transition cursor-pointer">Состав и КБЖУ</button>
+                    <button @click="activeTab = 'origin'" 
+                            :class="activeTab === 'origin' ? 'border-blaze text-blaze' : 'border-transparent text-mirage/60 hover:text-mirage'"
+                            class="px-6 py-3 font-medium border-b-2 transition cursor-pointer">Происхождение</button>
+                    <button @click="activeTab = 'rev'" 
+                            :class="activeTab === 'rev' ? 'border-blaze text-blaze' : 'border-transparent text-mirage/60 hover:text-mirage'"
+                            class="px-6 py-3 font-medium border-b-2 transition cursor-pointer">Отзывы</button>
+                </div>
+
+                <!-- Мобильные: вертикальные кнопки -->
+                <div class="md:hidden flex flex-col gap-2 mb-6">
+                    <button @click="activeTab = 'desc'" 
+                            :class="activeTab === 'desc' ? 'bg-blaze text-white border-blaze' : 'bg-white text-mirage border-mirage/20'"
+                            class="px-4 py-3 font-medium rounded-lg border transition text-left cursor-pointer">Описание</button>
+                    <button @click="activeTab = 'comp'" 
+                            :class="activeTab === 'comp' ? 'bg-blaze text-white border-blaze' : 'bg-white text-mirage border-mirage/20'"
+                            class="px-4 py-3 font-medium rounded-lg border transition text-left cursor-pointer">Состав и КБЖУ</button>
+                    <button @click="activeTab = 'origin'" 
+                            :class="activeTab === 'origin' ? 'bg-blaze text-white border-blaze' : 'bg-white text-mirage border-mirage/20'"
+                            class="px-4 py-3 font-medium rounded-lg border transition text-left cursor-pointer">Происхождение</button>
+                    <button @click="activeTab = 'rev'" 
+                            :class="activeTab === 'rev' ? 'bg-blaze text-white border-blaze' : 'bg-white text-mirage border-mirage/20'"
+                            class="px-4 py-3 font-medium rounded-lg border transition text-left cursor-pointer">Отзывы</button>
+                </div>
+
+                <!-- Контент табов -->
+                <div class="mt-8">
+                    <!-- Описание -->
+                    <div x-show="activeTab === 'desc'" x-transition>
+                        <p class="text-mirage/80 leading-relaxed text-lg" x-text="product?.fullDesc"></p>
+                        
+                        <div class="mt-8 p-6 bg-white rounded-xl border border-mirage/5">
+                            <h3 class="font-bold mb-4">Как употреблять</h3>
+                            <ul class="space-y-2 text-mirage/70">
+                                <li class="flex items-start gap-2">
+                                    <span class="text-blaze">•</span>
+                                    <span>1-2 столовые ложки в день (20-30 г)</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-blaze">•</span>
+                                    <span>Добавляйте в каши, смузи, йогурт</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-blaze">•</span>
+                                    <span>Намазывайте на цельнозерновой хлеб</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-blaze">•</span>
+                                    <span>Используйте как основу для соусов</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Состав и КБЖУ -->
+                    <div x-show="activeTab === 'comp'" x-transition>
+                        <h3 class="text-xl font-bold mb-4">Состав</h3>
+                        <p class="text-mirage/70 mb-8" x-text="product?.composition"></p>
+                        
+                        <h3 class="text-xl font-bold mb-4">Пищевая ценность на 100 г</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                            <div class="bg-white p-5 rounded-xl border border-mirage/5">
+                                <div class="text-3xl font-bold text-blaze mb-1" x-text="product?.nutrition?.calories"></div>
+                                <div class="text-xs text-mirage/60 uppercase tracking-wide">Ккал</div>
+                            </div>
+                            <div class="bg-white p-5 rounded-xl border border-mirage/5">
+                                <div class="text-3xl font-bold text-deep-sea mb-1" x-text="product?.nutrition?.protein + ' г'"></div>
+                                <div class="text-xs text-mirage/60 uppercase tracking-wide">Белки</div>
+                            </div>
+                            <div class="bg-white p-5 rounded-xl border border-mirage/5">
+                                <div class="text-3xl font-bold text-deep-sea mb-1" x-text="product?.nutrition?.fat + ' г'"></div>
+                                <div class="text-xs text-mirage/60 uppercase tracking-wide">Жиры</div>
+                            </div>
+                            <div class="bg-white p-5 rounded-xl border border-mirage/5">
+                                <div class="text-3xl font-bold text-deep-sea mb-1" x-text="product?.nutrition?.carbs + ' г'"></div>
+                                <div class="text-xs text-mirage/60 uppercase tracking-wide">Углеводы</div>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-xl font-bold mb-4">Полезные свойства</h3>
+                        <ul class="space-y-3">
+                            <template x-for="benefit in product?.benefits">
+                                <li class="flex items-start gap-3 bg-white p-4 rounded-lg border border-mirage/5">
+                                    <span class="text-blaze mt-0.5">✓</span>
+                                    <span class="text-mirage/70" x-text="benefit"></span>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
+
+                    <!-- Происхождение -->
+                    <div x-show="activeTab === 'origin'" x-transition>
+                        <div class="bg-white p-8 rounded-xl border border-mirage/5">
+                            <div class="flex items-start gap-4 mb-6">
+                                <div class="w-12 h-12 bg-deep-sea/10 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-6 h-6 text-deep-sea" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold mb-2">Происхождение сырья</h3>
+                                    <p class="text-mirage/70 leading-relaxed" x-text="product?.origin"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid md:grid-cols-3 gap-4 mt-6">
+                            <div class="bg-white p-6 rounded-xl border border-mirage/5 text-center">
+                                <div class="text-2xl font-bold text-blaze mb-1">0%</div>
+                                <div class="text-sm text-mirage/60">пестицидов и ГМО</div>
+                            </div>
+                            <div class="bg-white p-6 rounded-xl border border-mirage/5 text-center">
+                                <div class="text-2xl font-bold text-blaze mb-1">100%</div>
+                                <div class="text-sm text-mirage/60">прямые поставки</div>
+                            </div>
+                            <div class="bg-white p-6 rounded-xl border border-mirage/5 text-center">
+                                <div class="text-2xl font-bold text-blaze mb-1">40°C</div>
+                                <div class="text-sm text-mirage/60">макс. температура помола</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Отзывы -->
+                    <div x-show="activeTab === 'rev'" x-transition>
+                        <div class="space-y-4">
+                            <div class="bg-white p-6 rounded-xl">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <div class="w-10 h-10 rounded-full bg-blaze/20 flex items-center justify-center font-bold text-blaze">А</div>
+                                    <div>
+                                        <div class="font-semibold">Анна К.</div>
+                                        <div class="text-xs text-mirage/50">2 дня назад</div>
+                                    </div>
+                                    <div class="ml-auto text-blaze">★★★★★</div>
+                                </div>
+                                <p class="text-mirage/70 text-sm">Наконец-то нашла настоящий урбеч без сахара! Вкус насыщенный, консистенция густая. Добавляю в утреннюю овсянку - дети в восторге.</p>
+                            </div>
+                            <div class="bg-white p-6 rounded-xl">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <div class="w-10 h-10 rounded-full bg-deep-sea/20 flex items-center justify-center font-bold text-deep-sea">М</div>
+                                    <div>
+                                        <div class="font-semibold">Михаил Р.</div>
+                                        <div class="text-xs text-mirage/50">неделю назад</div>
+                                    </div>
+                                    <div class="ml-auto text-blaze">★★★★★</div>
+                                </div>
+                                <p class="text-mirage/70 text-sm">Беру набор «Знакомство» уже третий раз. Особенно понравился чёрный кунжут - необычный вкус и реально чувствуется польза для иммунитета.</p>
+                            </div>
+                            <div class="bg-white p-6 rounded-xl">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <div class="w-10 h-10 rounded-full bg-mirage/20 flex items-center justify-center font-bold text-mirage">Е</div>
+                                    <div>
+                                        <div class="font-semibold">Елена В.</div>
+                                        <div class="text-xs text-mirage/50">2 недели назад</div>
+                                    </div>
+                                    <div class="ml-auto text-blaze">★★★★★</div>
+                                </div>
+                                <p class="text-mirage/70 text-sm">Заказывала фундучный урбеч. Доставили быстро, упаковка крафтовая - приятно распаковывать. Вкус как у свежих орехов, ничего прогорклого.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ПЕРЕЛИНКОВКА -->
+        <section class="py-16 bg-white" x-show="product">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-2xl font-bold mb-2">Попробуйте также</h2>
+                <p class="text-mirage/60 mb-8">Другие продукты из нашей линейки</p>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <template x-for="p in relatedProducts" :key="p.id">
+                        <a :href="'product.html?id=' + p.id" class="group flex flex-col bg-wild-sand rounded-2xl overflow-hidden hover:shadow-xl transition">
+                            <div class="aspect-square overflow-hidden bg-gray-200">
+                                <img :src="p.image" :alt="p.name" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            </div>
+                            <div class="p-5 flex flex-col flex-grow">
+                                <span class="text-xs font-bold uppercase mb-2" 
+                                      :class="p.badgeColor === 'blaze' ? 'text-blaze' : 'text-deep-sea'"
+                                      x-text="p.badge"></span>
+                                <h3 class="font-bold mb-1" x-text="p.name"></h3>
+                                <p class="text-sm text-mirage/60 mb-3 flex-grow" x-text="p.shortDesc"></p>
+                                <div class="flex items-center justify-between pt-3 border-t border-mirage/10">
+                                    <span class="font-bold" x-text="p.price + ' руб.'"></span>
+                                    <span class="text-xs text-mirage/50" x-text="p.weight"></span>
+                                </div>
+                            </div>
+                        </a>
+                    </template>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="py-16 bg-deep-sea text-wild-sand" x-show="product">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl font-bold mb-4">Готовы попробовать настоящий урбеч?</h2>
+                <p class="text-wild-sand/70 mb-8">Свежий помол каждую неделю. Доставка по Екатеринбургу за 1-2 дня.</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button @click="addToCart(product)" class="bg-blaze text-white px-8 py-4 rounded-lg font-semibold hover:bg-orange-600 transition shadow-lg shadow-blaze/30">
+                        Добавить в корзину
+                    </button>
+                    <a href="https://t.me/urbeco_shop" target="_blank" class="bg-white/10 backdrop-blur-sm border border-white/20 text-white px-8 py-4 rounded-lg font-semibold hover:bg-white/20 transition">
+                        Написать в Telegram
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-mirage text-wild-sand/60 py-12 border-t border-deep-sea/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-center md:text-left">
+                <div class="text-2xl font-bold text-wild-sand mb-2">ЗЕРНО<span class="text-blaze">.</span></div>
+                <p class="text-sm">Сделано с любовью к природе и вашему здоровью.</p>
+            </div>
+            <div class="flex gap-6 text-sm">
+                <a href="offer.html" class="hover:text-blaze transition">Оферта</a>
+                <a href="delivery.html" class="hover:text-blaze transition">Доставка</a>
+                <a href="https://t.me/urbeco_shop" target="_blank" class="hover:text-blaze transition">Telegram</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- КОРЗИНА -->
+    <div x-show="isCartOpen" x-cloak class="fixed inset-0 z-50 overflow-hidden" aria-labelledby="slide-over-title" role="dialog" aria-modal="true" @keydown.escape.window="isCartOpen = false">
+        <!-- Затемнение (кликабельное) -->
+        <div class="absolute inset-0 bg-mirage/70 backdrop-blur-sm transition-opacity" @click="isCartOpen = false"></div>
+        
+        <!-- Панель корзины -->
+        <div class="fixed inset-y-0 right-0 flex max-w-full pl-10 pointer-events-none">
+            <div x-show="isCartOpen" 
+                 x-transition:enter="transform transition ease-in-out duration-500 sm:duration-700" 
+                 x-transition:enter-start="translate-x-full" 
+                 x-transition:enter-end="translate-x-0" 
+                 x-transition:leave="transform transition ease-in-out duration-500 sm:duration-700" 
+                 x-transition:leave-start="translate-x-0" 
+                 x-transition:leave-end="translate-x-full" 
+                 @click.stop
+                 class="w-screen max-w-md pointer-events-auto">
+                
+                <div class="flex h-full flex-col bg-wild-sand shadow-xl">
+                    <!-- Шапка -->
+                    <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
+                        <div class="flex items-start justify-between">
+                            <h2 class="text-2xl font-bold text-mirage">Ваш заказ</h2>
+                            <button @click="isCartOpen = false" class="p-2 text-mirage/50 hover:text-mirage">
+                                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                        <!-- Содержимое корзины -->
+                        <div class="mt-8">
+                            <ul class="-my-6 divide-y divide-mirage/10">
+                                <li x-show="cart.length === 0" class="py-12 text-center text-mirage/50">Корзина пуста 🌱</li>
+                                <template x-for="item in cart" :key="item.id">
+                                    <li class="flex py-6">
+                                        <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md bg-gray-200">
+                                            <img :src="item.image || 'img/hero.jpg'" :alt="item.name" class="h-full w-full object-cover" @error="$event.target.src = 'img/hero.jpg'">
+                                        </div>
+                                        <div class="ml-4 flex flex-1 flex-col">
+                                            <div class="flex justify-between text-base font-medium">
+                                                <h3 x-text="item.name"></h3>
+                                                <p x-text="item.price * item.quantity + ' руб.'"></p>
+                                            </div>
+                                            <p class="text-sm text-mirage/50" x-text="item.weight"></p>
+                                            <div class="flex items-end justify-between text-sm mt-2">
+                                                <div class="flex items-center border border-mirage/20 rounded-lg">
+                                                    <button @click="updateQuantity(item.id, -1)" class="px-3 py-1">−</button>
+                                                    <span class="px-2 font-medium" x-text="item.quantity"></span>
+                                                    <button @click="updateQuantity(item.id, 1)" class="px-3 py-1">+</button>
+                                                </div>
+                                                <button @click="removeFromCart(item.id)" class="text-blaze">Удалить</button>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Футер с итогом -->
+                    <div class="border-t border-mirage/10 px-4 py-6 bg-white">
+                        <div class="flex justify-between font-medium mb-4">
+                            <p>Итого</p>
+                            <p x-text="cartTotal() + ' руб.'"></p>
+                        </div>
+                        <button @click="checkout()" 
+                                :disabled="cart.length === 0"
+                                :class="cart.length === 0 ? 'bg-gray-300 cursor-not-allowed' : 'bg-blaze hover:bg-orange-600'"
+                                class="w-full py-4 rounded-lg font-bold text-white transition">
+                            Оформить в Telegram
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST УВЕДОМЛЕНИЕ -->
+    <div x-show="toastVisible" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0 translate-y-4"
+         x-transition:enter-end="opacity-100 translate-y-0"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100 translate-y-0"
+         x-transition:leave-end="opacity-0 translate-y-4"
+         class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[60] bg-mirage text-wild-sand px-6 py-3 rounded-full shadow-2xl flex items-center gap-3">
+        <svg class="w-5 h-5 text-blaze" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+        <span class="text-sm font-medium" x-text="toastMessage"></span>
+    </div>
+
+    <!-- ЛОГИКА -->
+    <script>
+        function productPage() {
+            return {
+                cart: [],
+                isCartOpen: false,
+                toastVisible: false,
+                toastMessage: '',
+                product: null,
+                relatedProducts: [],
+                
+                init() {
+                // Инициализация корзины
+                const savedCart = localStorage.getItem('zerne_cart');
+                if (savedCart) {
+                    this.cart = JSON.parse(savedCart);
+                }
+                this.$watch('cart', (value) => {
+                    localStorage.setItem('zerne_cart', JSON.stringify(value));
+                });
+                
+                // Инициализация товара
+                const params = new URLSearchParams(window.location.search);
+                const id = parseInt(params.get('id')) || 1;
+                this.product = PRODUCTS.find(p => p.id === id) || PRODUCTS[0];
+                this.relatedProducts = PRODUCTS.filter(p => p.id !== this.product.id).slice(0, 3);
+                
+                if (this.product) {
+                    document.title = this.product.name + ' - ЗЕРНО';
+                    
+                    // Динамические мета-теги для SEO
+                    const description = this.product.shortDesc + '. Свежемолотая ореховая паста холодного отжима.';
+                    const imageUrl = window.location.origin + window.location.pathname.replace('product.html', '') + this.product.image;
+                    
+                    this.updateMetaTag('description', description);
+                    this.updateMetaTag('og:title', this.product.name + ' - ЗЕРНО');
+                    this.updateMetaTag('og:description', description);
+                    this.updateMetaTag('og:image', imageUrl);
+                    this.updateMetaTag('og:url', window.location.href);
+                    
+                    this.addProductSchema();
+                }
+            },
+
+            updateMetaTag(property, content) {
+                let meta = document.querySelector(`meta[property="${property}"]`) || 
+                        document.querySelector(`meta[name="${property}"]`);
+                if (meta) {
+                    meta.setAttribute('content', content);
+                }
+            },
+
+            addProductSchema() {
+                const schema = {
+                    "@context": "https://schema.org",
+                    "@type": "Product",
+                    "name": this.product.name,
+                    "description": this.product.fullDesc,
+                    "image": window.location.origin + window.location.pathname.replace('product.html', '') + this.product.image,
+                    "brand": {
+                        "@type": "Brand",
+                        "name": "ЗЕРНО"
+                    },
+                    "offers": {
+                        "@type": "Offer",
+                        "price": this.product.price,
+                        "priceCurrency": "RUB",
+                        "availability": "https://schema.org/InStock",
+                        "url": window.location.href
+                    }
+                };
+                
+                const script = document.createElement('script');
+                script.type = 'application/ld+json';
+                script.text = JSON.stringify(schema);
+                document.head.appendChild(script);
+            },
+                
+                addToCart(product) {
+                    const existingItem = this.cart.find(item => item.id === product.id);
+                    if (existingItem) {
+                        existingItem.quantity++;
+                    } else {
+                        this.cart.push({ 
+                            ...product, 
+                            quantity: 1,
+                            image: product.image || `img/product-${product.id === 1 ? 'flax' : product.id === 2 ? 'sesame' : product.id === 3 ? 'hazelnut' : 'set'}.jpg`
+                        });
+                    }
+                    this.showToast('Товар добавлен в корзину');
+                },
+                
+                removeFromCart(id) {
+                    this.cart = this.cart.filter(item => item.id !== id);
+                },
+                
+                updateQuantity(id, delta) {
+                    const item = this.cart.find(item => item.id === id);
+                    if (item) {
+                        item.quantity += delta;
+                        if (item.quantity <= 0) {
+                            this.removeFromCart(id);
+                        }
+                    }
+                },
+                
+                cartTotal() {
+                    return this.cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+                },
+                
+                cartTotalItems() {
+                    return this.cart.reduce((total, item) => total + item.quantity, 0);
+                },
+                
+                getProductImage(id) {
+                    const product = PRODUCTS.find(p => p.id === id);
+                    return product ? product.image : 'img/hero.jpg';
+                },
+                
+                checkout() {
+                    if (this.cart.length === 0) return;
+                    
+                    let message = "Здравствуйте! Хочу оформить заказ:\n\n";
+                    this.cart.forEach(item => {
+                        message += `- ${item.name} (${item.weight}) x ${item.quantity} шт. = ${item.price * item.quantity} руб.\n`;
+                    });
+                    message += `\nИтого: ${this.cartTotal()} руб.\n\nПодскажите по доставке!`;
+                    
+                    const encodedMessage = encodeURIComponent(message);
+                    const telegramUrl = `https://t.me/urbeco_shop?text=${encodedMessage}`;
+                    
+                    window.open(telegramUrl, '_blank');
+                },
+                
+                showToast(message) {
+                    this.toastMessage = message;
+                    this.toastVisible = true;
+                    setTimeout(() => {
+                        this.toastVisible = false;
+                    }, 2000);
+                }
+            };
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оферта - ЗЕРНО</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        mirage: '#16232A', blaze: '#FF5B04',
+                        'deep-sea': '#075056', 'wild-sand': '#E4EEF0',
+                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Inter', sans-serif; }</style>
+</head>
+<body class="bg-wild-sand text-mirage antialiased">
+
+    <header class="bg-mirage border-b border-deep-sea/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center">
+            <a href="index.html" class="text-2xl font-bold text-wild-sand tracking-tight">ЗЕРНО<span class="text-blaze">.</span></a>
+        </div>
+    </header>
+
+    <main class="py-20">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="text-sm text-mirage/60 mb-8">
+                <a href="index.html" class="hover:text-blaze">Главная</a>
+                <span class="mx-2">/</span>
+                <span>Оферта</span>
+            </nav>
+
+            <h1 class="text-4xl font-bold mb-8">Публичная оферта</h1>
+
+            <div class="bg-white p-8 rounded-2xl border-2 border-dashed border-blaze/40">
+                <div class="text-center py-8">
+                    <div class="w-16 h-16 mx-auto bg-blaze/10 rounded-full flex items-center justify-center mb-4">
+                        <svg class="w-8 h-8 text-blaze" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h2 class="text-xl font-bold mb-2">Это демо-сайт</h2>
+                    <p class="text-mirage/60 mb-6">
+                        Данный сайт создан в рамках портфолио проекта «Архитектура Контента» 
+                        и не является реальным интернет-магазином. Здесь нет настоящих товаров, 
+                        оплаты и доставки.
+                    </p>
+                    <p class="text-sm text-mirage/50">
+                        Все тексты, изображения и цены приведены исключительно в демонстрационных целях. 
+                        Никакие сделки не совершаются, персональные данные не собираются.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-8 text-center">
+                <a href="index.html" class="inline-flex items-center gap-2 text-blaze hover:text-orange-700 font-medium">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    Вернуться на главную
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-mirage text-wild-sand/60 py-8 border-t border-deep-sea/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm">
+            © 2026 ЗЕРНО. Демо-проект портфолио.
+        </div>
+    </footer>
+</body>
+</html>

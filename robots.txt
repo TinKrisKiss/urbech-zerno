@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://твой-username.github.io/project-3-zerne/sitemap.xml
